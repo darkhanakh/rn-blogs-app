@@ -1,6 +1,7 @@
 import React from 'react';
-import { FlatList, View, Text } from 'react-native';
+import { FlatList, View } from 'react-native';
 import styled from 'styled-components/native';
+
 import Post from '../components/Post';
 import DATA from './../data';
 
