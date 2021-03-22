@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Text, View } from 'react-native';
 import AppLoading from 'expo-app-loading';
 
 import bootstrap from './app/bootstrap';
