@@ -30,9 +30,9 @@ export default function AppNavigation() {
         <Stack.Screen
           name="Post"
           component={PostScreen}
-          options={{
-            title: 'Пост номер 42',
-          }}
+          options={({ route: { params } }) => ({
+            title: 'Пост от ' + new Date(params.date).toLocaleDateString(),
+          })}
         />
       </Stack.Navigator>
     </NavigationContainer>

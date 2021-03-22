@@ -8,10 +8,11 @@ const StyledView = styled(View)`
   align-items: center;
 `;
 
-export default function PostScreen() {
+export default function PostScreen({ navigation, route }) {
+  const { postId } = route.params;
   return (
     <StyledView>
-      <Text>PostScreen Component</Text>
+      <Text>{postId}</Text>
     </StyledView>
   );
 }

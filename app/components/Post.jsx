@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ImageBackground } from 'react-native';
+import { View, Text, ImageBackground, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 
 const PostView = styled(View)`
@@ -24,17 +24,19 @@ const TitleText = styled(Text)`
   font-family: 'open-regular';
 `;
 
-export default function Post({ post }) {
+export default function Post({ post, onOpen }) {
   return (
-    <PostView>
-      <StyledImage
-        source={{
-          uri: post.img,
-        }}>
-        <TextWrapperView>
-          <TitleText>{new Date(post.date).toLocaleDateString()}</TitleText>
-        </TextWrapperView>
-      </StyledImage>
-    </PostView>
+    <TouchableOpacity activeOpacity={0.7} onPress={() => onOpen(post)}>
+      <PostView>
+        <StyledImage
+          source={{
+            uri: post.img,
+          }}>
+          <TextWrapperView>
+            <TitleText>{new Date(post.date).toLocaleDateString()}</TitleText>
+          </TextWrapperView>
+        </StyledImage>
+      </PostView>
+    </TouchableOpacity>
   );
 }

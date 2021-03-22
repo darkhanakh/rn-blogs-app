@@ -9,12 +9,16 @@ const WrapperView = styled(View)`
 `;
 
 export default function MainScreen({ navigation }) {
+  const openPostHandler = post => {
+    navigation.navigate('Post', { postId: post.id, date: post.date });
+  };
+
   return (
     <WrapperView>
       <FlatList
         data={DATA}
         keyExtractor={post => post.id.toString()}
-        renderItem={({ item }) => <Post post={item} />}
+        renderItem={({ item }) => <Post post={item} onOpen={openPostHandler} />}
       />
     </WrapperView>
   );
