@@ -1,18 +1,21 @@
 import React from 'react';
-import { Button, Text } from 'react-native';
+import { FlatList, View, Text } from 'react-native';
 import styled from 'styled-components/native';
+import Post from '../components/Post';
+import DATA from './../data';
 
-const StyledView = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
+const WrapperView = styled(View)`
+  padding: 10px;
 `;
 
 export default function MainScreen({ navigation }) {
   return (
-    <StyledView>
-      <Text>MainScreen Component</Text>
-      <Button title="Go to post" onPress={() => navigation.navigate('Post')} />
-    </StyledView>
+    <WrapperView>
+      <FlatList
+        data={DATA}
+        keyExtractor={post => post.id.toString()}
+        renderItem={({ item }) => <Post post={item} />}
+      />
+    </WrapperView>
   );
 }
