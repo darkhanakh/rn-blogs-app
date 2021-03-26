@@ -21,10 +21,6 @@ export default function PostScreen({ navigation, route }) {
   const { postId } = route.params;
   const post = DATA.find(p => p.id === postId);
 
-  // useEffect(() => {
-  //   navigation.setParams({ booked: post.booked });
-  // }, []);
-
   const removePost = () => {
     Alert.alert('Удаление поста', 'Вы уверены что хотите удалить пост?', [
       {
