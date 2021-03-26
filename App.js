@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import AppLoading from 'expo-app-loading';
 
 import bootstrap from './app/bootstrap';
-import BottomNavigation from './app/navigation/AppNavigation';
+import MainNavigation from './app/navigation/AppNavigation';
 
 export default function App() {
   const [isReady, setIsReady] = useState(false);
@@ -17,5 +17,5 @@ export default function App() {
     );
   }
 
-  return <BottomNavigation />;
+  return <MainNavigation />;
 }

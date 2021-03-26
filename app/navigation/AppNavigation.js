@@ -7,8 +7,15 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
-import { BookedScreen, MainScreen, PostScreen } from './../screens';
+import {
+  AboutScreen,
+  BookedScreen,
+  CreateScreen,
+  MainScreen,
+  PostScreen,
+} from './../screens';
 import { THEME } from './../theme';
 import AppHeaderIcon from '../components/common/AppHeaderIcon';
 
@@ -19,28 +26,28 @@ const navigatorOptions = {
   headerTintColor: Platform.OS === 'android' ? 'white' : THEME.MAIN_COLOR,
 };
 
-const navigationDrawer = () => (
+const navigationDrawer = navigation => (
   <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
     <Item
       title="Toggle Drawer"
       iconName="ios-menu"
-      onPress={() => console.log('Press drawer')}
+      onPress={() => navigation.toggleDrawer()}
     />
   </HeaderButtons>
 );
 
-const AppNavigator = createStackNavigator();
+const PostNavigator = createStackNavigator();
 
-function AppNavigation() {
+function PostNavigation() {
   return (
-    <AppNavigator.Navigator
+    <PostNavigator.Navigator
       initialRouteName="Main"
       screenOptions={navigatorOptions}
     >
-      <AppNavigator.Screen
+      <PostNavigator.Screen
         name="Main"
         component={MainScreen}
-        options={{
+        options={({ navigation }) => ({
           title: 'Мой блог',
           headerRight: () => (
             <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
@@ -51,10 +58,10 @@ function AppNavigation() {
               />
             </HeaderButtons>
           ),
-          headerLeft: navigationDrawer,
-        }}
+          headerLeft: () => navigationDrawer(navigation),
+        })}
       />
-      <AppNavigator.Screen
+      <PostNavigator.Screen
         name="Post"
         component={PostScreen}
         options={({ route: { params } }) => ({
@@ -73,7 +80,7 @@ function AppNavigation() {
           },
         })}
       />
-    </AppNavigator.Navigator>
+    </PostNavigator.Navigator>
   );
 }
 
@@ -103,40 +110,52 @@ const BottomNavigator =
     ? createMaterialBottomTabNavigator()
     : createBottomTabNavigator();
 
-export default function BottomNavigation() {
+function BottomNavigation() {
+  return (
+    <BottomNavigator.Navigator
+      initialRouteName="App"
+      tabBarOptions={{
+        activeTintColor: 'white',
+      }}
+      barStyle={{
+        backgroundColor: THEME.MAIN_COLOR,
+      }}
+      shifting={true}
+    >
+      <BottomNavigator.Screen
+        name="App"
+        component={PostNavigation}
+        options={{
+          title: 'Все',
+          tabBarIcon: info => (
+            <Ionicons name="ios-albums" size={25} color={info.color} />
+          ),
+        }}
+      />
+      <BottomNavigator.Screen
+        name="Booked"
+        component={BookedNavigation}
+        options={{
+          title: 'Избранное',
+          tabBarIcon: info => (
+            <Ionicons name="ios-star" size={25} color={info.color} />
+          ),
+        }}
+      />
+    </BottomNavigator.Navigator>
+  );
+}
+
+const MainNavigator = createDrawerNavigator();
+
+export default function MainNavigation() {
   return (
     <NavigationContainer>
-      <BottomNavigator.Navigator
-        initialRouteName="App"
-        tabBarOptions={{
-          activeTintColor: 'white',
-        }}
-        barStyle={{
-          backgroundColor: THEME.MAIN_COLOR,
-        }}
-        shifting={true}
-      >
-        <BottomNavigator.Screen
-          name="App"
-          component={AppNavigation}
-          options={{
-            title: 'Все',
-            tabBarIcon: info => (
-              <Ionicons name="ios-albums" size={25} color={info.color} />
-            ),
-          }}
-        />
-        <BottomNavigator.Screen
-          name="Booked"
-          component={BookedNavigation}
-          options={{
-            title: 'Избранное',
-            tabBarIcon: info => (
-              <Ionicons name="ios-star" size={25} color={info.color} />
-            ),
-          }}
-        />
-      </BottomNavigator.Navigator>
+      <MainNavigator.Navigator>
+        <MainNavigator.Screen name="PostTabs" component={BottomNavigation} />
+        <MainNavigator.Screen name="About" component={AboutScreen} />
+        <MainNavigator.Screen name="Create" component={CreateScreen} />
+      </MainNavigator.Navigator>
     </NavigationContainer>
   );
 }
