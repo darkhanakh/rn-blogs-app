@@ -12,19 +12,30 @@ import { BookedScreen, MainScreen, PostScreen } from './../screens';
 import { THEME } from './../theme';
 import AppHeaderIcon from '../components/common/AppHeaderIcon';
 
+const navigatorOptions = {
+  headerStyle: {
+    backgroundColor: Platform.OS === 'android' ? THEME.MAIN_COLOR : 'white',
+  },
+  headerTintColor: Platform.OS === 'android' ? 'white' : THEME.MAIN_COLOR,
+};
+
+const navigationDrawer = () => (
+  <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
+    <Item
+      title="Toggle Drawer"
+      iconName="ios-menu"
+      onPress={() => console.log('Press drawer')}
+    />
+  </HeaderButtons>
+);
+
 const AppNavigator = createStackNavigator();
 
 function AppNavigation() {
   return (
     <AppNavigator.Navigator
       initialRouteName="Main"
-      screenOptions={{
-        headerStyle: {
-          backgroundColor:
-            Platform.OS === 'android' ? THEME.MAIN_COLOR : 'white',
-        },
-        headerTintColor: Platform.OS === 'android' ? 'white' : THEME.MAIN_COLOR,
-      }}
+      screenOptions={navigatorOptions}
     >
       <AppNavigator.Screen
         name="Main"
@@ -40,15 +51,7 @@ function AppNavigation() {
               />
             </HeaderButtons>
           ),
-          headerLeft: () => (
-            <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
-              <Item
-                title="Toggle Drawer"
-                iconName="ios-menu"
-                onPress={() => console.log('Press drawer')}
-              />
-            </HeaderButtons>
-          ),
+          headerLeft: navigationDrawer,
         }}
       />
       <AppNavigator.Screen
@@ -57,8 +60,7 @@ function AppNavigation() {
         options={({ route: { params } }) => ({
           title: 'Пост от ' + new Date(params.date).toLocaleDateString(),
           headerRight: () => {
-            const booked = params.booked;
-            let iconName = booked ? 'ios-star' : 'ios-star-outline';
+            let iconName = params.booked ? 'ios-star' : 'ios-star-outline';
             return (
               <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
                 <Item
@@ -81,28 +83,14 @@ function BookedNavigation() {
   return (
     <BookedNavigator.Navigator
       initialRouteName="Booked"
-      screenOptions={{
-        headerStyle: {
-          backgroundColor:
-            Platform.OS === 'android' ? THEME.MAIN_COLOR : 'white',
-        },
-        headerTintColor: Platform.OS === 'android' ? 'white' : THEME.MAIN_COLOR,
-      }}
+      screenOptions={navigatorOptions}
     >
       <BookedNavigator.Screen
         name="Booked"
         component={BookedScreen}
         options={{
           title: 'Избранное',
-          headerLeft: () => (
-            <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
-              <Item
-                title="Toggle Drawer"
-                iconName="ios-menu"
-                onPress={() => console.log('Press drawer')}
-              />
-            </HeaderButtons>
-          ),
+          headerLeft: navigationDrawer,
         }}
       />
       <BookedNavigator.Screen name="Post" component={PostScreen} />

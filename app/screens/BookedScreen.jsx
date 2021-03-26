@@ -1,13 +1,7 @@
 import React from 'react';
-import { FlatList, View } from 'react-native';
-import styled from 'styled-components/native';
 
-import Post from '../components/Post';
+import PostList from '../components/PostList';
 import DATA from './../data';
-
-const WrapperView = styled(View)`
-  padding: 10px;
-`;
 
 export default function BookedScreen({ navigation }) {
   const openPostHandler = post => {
@@ -18,13 +12,7 @@ export default function BookedScreen({ navigation }) {
     });
   };
 
-  return (
-    <WrapperView>
-      <FlatList
-        data={DATA.filter(post => post.booked)}
-        keyExtractor={post => post.id.toString()}
-        renderItem={({ item }) => <Post post={item} onOpen={openPostHandler} />}
-      />
-    </WrapperView>
-  );
+  const data = DATA.filter(post => post.booked);
+
+  return <PostList data={data} onOpen={openPostHandler} />;
 }

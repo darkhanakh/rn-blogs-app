@@ -1,19 +1,19 @@
-import React, { useEffect } from 'react';
-import { Text, View, Image, Button, ScrollView, Alert } from 'react-native';
+import React from 'react';
+import { View, Button, Alert } from 'react-native';
 import styled from 'styled-components/native';
 import DATA from '../data';
 import { THEME } from '../theme';
 
-const StyledImage = styled(Image)`
+const StyledImage = styled.Image`
   width: 100%;
   height: 200px;
 `;
 
-const PostText = styled(Text)`
+const PostText = styled.Text`
   font-family: 'open-regular';
 `;
 
-const TextWrapper = styled(ScrollView)`
+const TextWrapper = styled.ScrollView`
   padding: 10px;
 `;
 

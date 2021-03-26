@@ -1,13 +1,8 @@
 import React from 'react';
-import { FlatList, View } from 'react-native';
 import styled from 'styled-components/native';
 
-import Post from '../components/Post';
+import PostList from '../components/PostList';
 import DATA from './../data';
-
-const WrapperView = styled(View)`
-  padding: 10px;
-`;
 
 export default function MainScreen({ navigation }) {
   const openPostHandler = post => {
@@ -18,13 +13,5 @@ export default function MainScreen({ navigation }) {
     });
   };
 
-  return (
-    <WrapperView>
-      <FlatList
-        data={DATA}
-        keyExtractor={post => post.id.toString()}
-        renderItem={({ item }) => <Post post={item} onOpen={openPostHandler} />}
-      />
-    </WrapperView>
-  );
+  return <PostList data={DATA} onOpen={openPostHandler} />;
 }

@@ -1,8 +1,8 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text } from 'react-native';
 import styled from 'styled-components/native';
 
-const StyledView = styled(View)`
+const StyledView = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
