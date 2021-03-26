@@ -1,17 +1,30 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { FlatList, View } from 'react-native';
 import styled from 'styled-components/native';
 
-const StyledView = styled(View)`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
+import Post from '../components/Post';
+import DATA from './../data';
+
+const WrapperView = styled(View)`
+  padding: 10px;
 `;
 
-export default function BookedScreen() {
+export default function BookedScreen({ navigation }) {
+  const openPostHandler = post => {
+    navigation.navigate('Post', {
+      postId: post.id,
+      date: post.date,
+      booked: post.booked,
+    });
+  };
+
   return (
-    <StyledView>
-      <Text>BookmarkedScreen Component</Text>
-    </StyledView>
+    <WrapperView>
+      <FlatList
+        data={DATA.filter(post => post.booked)}
+        keyExtractor={post => post.id.toString()}
+        renderItem={({ item }) => <Post post={item} onOpen={openPostHandler} />}
+      />
+    </WrapperView>
   );
 }

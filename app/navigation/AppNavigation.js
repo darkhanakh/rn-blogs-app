@@ -88,7 +88,22 @@ function BookedNavigation() {
         headerTintColor: Platform.OS === 'android' ? 'white' : THEME.MAIN_COLOR,
       }}
     >
-      <BookedNavigator.Screen name="Booked" component={BookedScreen} />
+      <BookedNavigator.Screen
+        name="Booked"
+        component={BookedScreen}
+        options={{
+          title: 'Избранное',
+          headerLeft: () => (
+            <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
+              <Item
+                title="Toggle Drawer"
+                iconName="ios-menu"
+                onPress={() => console.log('Press drawer')}
+              />
+            </HeaderButtons>
+          ),
+        }}
+      />
       <BookedNavigator.Screen name="Post" component={PostScreen} />
     </BookedNavigator.Navigator>
   );
@@ -109,7 +124,7 @@ export default function BottomNavigation() {
           name="App"
           component={AppNavigation}
           options={{
-            title: 'Post',
+            title: 'Посты',
             tabBarIcon: info => (
               <Ionicons name="ios-albums" size={25} color={info.color} />
             ),
@@ -122,6 +137,7 @@ export default function BottomNavigation() {
             tabBarIcon: info => (
               <Ionicons name="ios-star" size={25} color={info.color} />
             ),
+            title: 'Избранное',
           }}
         />
       </BottomNavigator.Navigator>
