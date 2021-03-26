@@ -1,11 +1,12 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { Ionicons } from '@expo/vector-icons';
 
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 
 import { BookedScreen, MainScreen, PostScreen } from './../screens';
 import { THEME } from './../theme';
@@ -109,7 +110,10 @@ function BookedNavigation() {
   );
 }
 
-const BottomNavigator = createBottomTabNavigator();
+const BottomNavigator =
+  Platform.OS === 'android'
+    ? createMaterialBottomTabNavigator()
+    : createBottomTabNavigator();
 
 export default function BottomNavigation() {
   return (
@@ -117,14 +121,18 @@ export default function BottomNavigation() {
       <BottomNavigator.Navigator
         initialRouteName="App"
         tabBarOptions={{
-          activeTintColor: THEME.MAIN_COLOR,
+          activeTintColor: 'white',
         }}
+        barStyle={{
+          backgroundColor: THEME.MAIN_COLOR,
+        }}
+        shifting={true}
       >
         <BottomNavigator.Screen
           name="App"
           component={AppNavigation}
           options={{
-            title: 'Посты',
+            title: 'Все',
             tabBarIcon: info => (
               <Ionicons name="ios-albums" size={25} color={info.color} />
             ),
@@ -134,10 +142,10 @@ export default function BottomNavigation() {
           name="Booked"
           component={BookedNavigation}
           options={{
+            title: 'Избранное',
             tabBarIcon: info => (
               <Ionicons name="ios-star" size={25} color={info.color} />
             ),
-            title: 'Избранное',
           }}
         />
       </BottomNavigator.Navigator>
