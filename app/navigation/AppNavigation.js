@@ -39,6 +39,15 @@ export default function AppNavigation() {
                 />
               </HeaderButtons>
             ),
+            headerLeft: () => (
+              <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
+                <Item
+                  title="Toggle Drawer"
+                  iconName="ios-menu"
+                  onPress={() => console.log('Press drawer')}
+                />
+              </HeaderButtons>
+            ),
           }}
         />
         <Stack.Screen
@@ -46,6 +55,19 @@ export default function AppNavigation() {
           component={PostScreen}
           options={({ route: { params } }) => ({
             title: 'Пост от ' + new Date(params.date).toLocaleDateString(),
+            headerRight: () => {
+              const booked = params.booked;
+              let iconName = booked ? 'ios-star' : 'ios-star-outline';
+              return (
+                <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
+                  <Item
+                    title="Take photo"
+                    iconName={iconName}
+                    onPress={() => console.log('Press star')}
+                  />
+                </HeaderButtons>
+              );
+            },
           })}
         />
       </Stack.Navigator>
