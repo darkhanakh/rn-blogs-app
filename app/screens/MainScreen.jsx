@@ -8,7 +8,7 @@ export default function MainScreen({ navigation }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(loadPosts);
+    dispatch(loadPosts());
   }, [dispatch]);
 
   const allPosts = useSelector(state => state.post.allPosts);

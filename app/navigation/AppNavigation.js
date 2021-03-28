@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -18,6 +18,8 @@ import {
 } from './../screens';
 import { THEME } from './../theme';
 import AppHeaderIcon from '../components/common/AppHeaderIcon';
+import { useDispatch } from 'react-redux';
+import { toggleBooked } from '../store/actions/post.action';
 
 const navigatorOptions = {
   headerStyle: {
@@ -67,13 +69,22 @@ function PostNavigation() {
         options={({ route: { params } }) => ({
           title: 'Пост от ' + new Date(params.date).toLocaleDateString(),
           headerRight: () => {
+            const dispatch = useDispatch();
+            const { postId } = params;
+
+            const toggleHandler = useCallback(
+              () => dispatch(toggleBooked(postId)),
+              [dispatch, postId]
+            );
+
             let iconName = params.booked ? 'ios-star' : 'ios-star-outline';
+
             return (
               <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
                 <Item
                   title="Take photo"
                   iconName={iconName}
-                  onPress={() => console.log('Press star')}
+                  onPress={() => toggleHandler()}
                 />
               </HeaderButtons>
             );

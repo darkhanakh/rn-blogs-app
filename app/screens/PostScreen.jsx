@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Button, Alert } from 'react-native';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 import DATA from '../data';
 import { THEME } from '../theme';
@@ -20,6 +21,14 @@ const TextWrapper = styled.ScrollView`
 export default function PostScreen({ navigation, route }) {
   const { postId } = route.params;
   const post = DATA.find(p => p.id === postId);
+
+  const booked = useSelector(state =>
+    state.post.bookedPosts.some(post => post.id === postId)
+  );
+
+  useEffect(() => {
+    navigation.setParams({ booked });
+  }, [booked]);
 
   const removePost = () => {
     Alert.alert('Удаление поста', 'Вы уверены что хотите удалить пост?', [
