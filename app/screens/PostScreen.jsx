@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { View, Button, Alert } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components/native';
-import DATA from '../data';
 import { THEME } from '../theme';
+import { deletePost } from './../store/actions/post.action';
 
 const StyledImage = styled.Image`
   width: 100%;
@@ -19,8 +19,12 @@ const TextWrapper = styled.ScrollView`
 `;
 
 export default function PostScreen({ navigation, route }) {
+  const dispatch = useDispatch();
   const { postId } = route.params;
-  const post = DATA.find(p => p.id === postId);
+
+  const post = useSelector(state =>
+    state.post.allPosts.find(p => p.id === postId)
+  );
 
   const booked = useSelector(state =>
     state.post.bookedPosts.some(post => post.id === postId)
@@ -30,15 +34,27 @@ export default function PostScreen({ navigation, route }) {
     navigation.setParams({ booked });
   }, [booked]);
 
-  const removePost = () => {
+  const removeHandler = () => {
     Alert.alert('Удаление поста', 'Вы уверены что хотите удалить пост?', [
       {
         text: 'Отменить',
         style: 'cancel',
       },
-      { text: 'Удалить', style: 'destructive', onPress() {} },
+      {
+        text: 'Удалить',
+        style: 'destructive',
+        onPress() {
+          navigation.navigate('Main');
+
+          dispatch(deletePost(postId));
+        },
+      },
     ]);
   };
+
+  if (!post) {
+    return null;
+  }
 
   return (
     <View>
@@ -50,7 +66,11 @@ export default function PostScreen({ navigation, route }) {
       <TextWrapper>
         <PostText>{post.text}</PostText>
       </TextWrapper>
-      <Button title="Удалить" color={THEME.DANGER_COLOR} onPress={removePost} />
+      <Button
+        title="Удалить"
+        color={THEME.DANGER_COLOR}
+        onPress={removeHandler}
+      />
     </View>
   );
 }
