@@ -95,10 +95,10 @@ function BookedNavigation() {
       <BookedNavigator.Screen
         name="Booked"
         component={BookedScreen}
-        options={{
+        options={({ navigation }) => ({
           title: 'Избранное',
-          headerLeft: navigationDrawer,
-        }}
+          headerLeft: () => navigationDrawer(navigation),
+        })}
       />
       <BookedNavigator.Screen name="Post" component={PostScreen} />
     </BookedNavigator.Navigator>

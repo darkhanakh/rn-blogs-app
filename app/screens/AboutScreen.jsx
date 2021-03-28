@@ -8,10 +8,17 @@ const StyledView = styled.View`
   align-items: center;
 `;
 
+const BoldText = styled.Text`
+  font-family: 'open-bold';
+`;
+
 export default function AboutScreen() {
   return (
     <StyledView>
-      <Text>AboutScreen Component</Text>
+      <Text>Это лучшее приложение для личных заметок</Text>
+      <Text>
+        Версия приложения <BoldText>1.0.0</BoldText>
+      </Text>
     </StyledView>
   );
 }
