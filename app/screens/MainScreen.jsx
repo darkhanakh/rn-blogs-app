@@ -1,10 +1,18 @@
-import React from 'react';
-import styled from 'styled-components/native';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import PostList from '../components/PostList';
-import DATA from './../data';
+import { loadPosts } from './../store/actions/post.action';
 
 export default function MainScreen({ navigation }) {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(loadPosts);
+  }, [dispatch]);
+
+  const allPosts = useSelector(state => state.post.allPosts);
+
   const openPostHandler = post => {
     navigation.navigate('Post', {
       postId: post.id,
@@ -13,5 +21,5 @@ export default function MainScreen({ navigation }) {
     });
   };
 
-  return <PostList data={DATA} onOpen={openPostHandler} />;
+  return <PostList data={allPosts} onOpen={openPostHandler} />;
 }
