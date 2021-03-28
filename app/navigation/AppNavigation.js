@@ -54,7 +54,7 @@ function PostNavigation() {
               <Item
                 title="Take photo"
                 iconName="ios-camera"
-                onPress={() => console.log('Press photo')}
+                onPress={() => navigation.navigate('Create')}
               />
             </HeaderButtons>
           ),
@@ -146,15 +146,74 @@ function BottomNavigation() {
   );
 }
 
+const AboutNavigator = createStackNavigator();
+
+function AboutNavigation() {
+  return (
+    <AboutNavigator.Navigator screenOptions={navigatorOptions}>
+      <AboutNavigator.Screen
+        name="About"
+        component={AboutScreen}
+        options={({ navigation }) => ({
+          title: 'О приложение',
+          headerLeft: () => navigationDrawer(navigation),
+        })}
+      />
+    </AboutNavigator.Navigator>
+  );
+}
+
+const CreateNavigator = createStackNavigator();
+
+function CreateNavigation() {
+  return (
+    <CreateNavigator.Navigator screenOptions={navigatorOptions}>
+      <CreateNavigator.Screen
+        name="Create"
+        component={CreateScreen}
+        options={({ navigation }) => ({
+          title: 'Создать новый пост',
+          headerLeft: () => navigationDrawer(navigation),
+        })}
+      />
+    </CreateNavigator.Navigator>
+  );
+}
+
 const MainNavigator = createDrawerNavigator();
 
 export default function MainNavigation() {
   return (
     <NavigationContainer>
-      <MainNavigator.Navigator>
-        <MainNavigator.Screen name="PostTabs" component={BottomNavigation} />
-        <MainNavigator.Screen name="About" component={AboutScreen} />
-        <MainNavigator.Screen name="Create" component={CreateScreen} />
+      <MainNavigator.Navigator
+        drawerContentOptions={{
+          activeTintColor: THEME.MAIN_COLOR,
+          labelStyle: {
+            fontFamily: 'open-bold',
+          },
+        }}
+      >
+        <MainNavigator.Screen
+          name="PostTabs"
+          component={BottomNavigation}
+          options={{
+            title: 'Посты',
+          }}
+        />
+        <MainNavigator.Screen
+          name="About"
+          component={AboutNavigation}
+          options={{
+            title: 'О нас',
+          }}
+        />
+        <MainNavigator.Screen
+          name="Create"
+          component={CreateNavigation}
+          options={{
+            title: 'Создать пост',
+          }}
+        />
       </MainNavigator.Navigator>
     </NavigationContainer>
   );
