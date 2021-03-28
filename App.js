@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import AppLoading from 'expo-app-loading';
+import { Provider } from 'react-redux';
+import store from './app/store/store';
 
 import bootstrap from './app/bootstrap';
 import MainNavigation from './app/navigation/AppNavigation';
@@ -17,5 +19,9 @@ export default function App() {
     );
   }
 
-  return <MainNavigation />;
+  return (
+    <Provider store={store}>
+      <MainNavigation />
+    </Provider>
+  );
 }
