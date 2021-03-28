@@ -1,5 +1,5 @@
 import DATA from '../../data';
-import { LOAD_POSTS, REMOVE_POST, TOGGLE_BOOKED } from '../types';
+import { CREATE_POST, LOAD_POSTS, REMOVE_POST, TOGGLE_BOOKED } from '../types';
 
 export const loadPosts = () => ({
   type: LOAD_POSTS,
@@ -15,3 +15,12 @@ export const deletePost = id => ({
   type: REMOVE_POST,
   payload: id,
 });
+
+export const createPost = post => {
+  post.id = '_' + Math.random().toString(36).substr(2, 9);
+
+  return {
+    type: CREATE_POST,
+    payload: post,
+  };
+};
