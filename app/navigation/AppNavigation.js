@@ -51,7 +51,7 @@ function PostNavigation() {
         name="Main"
         component={MainScreen}
         options={({ navigation }) => ({
-          title: 'Мой блог',
+          title: 'Мой блог!',
           headerRight: () => (
             <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
               <Item
