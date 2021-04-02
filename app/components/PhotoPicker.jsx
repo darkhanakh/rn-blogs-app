@@ -29,7 +29,7 @@ const askPermissions = async () => {
   return true;
 };
 
-export default function PhotoPicker() {
+export default function PhotoPicker({ onPick }) {
   const [image, setImage] = useState(null);
   const takePhoto = async () => {
     const hasPermissions = await askPermissions();
@@ -43,7 +43,9 @@ export default function PhotoPicker() {
       allowsEditing: false,
       aspect: [16, 9],
     });
-    console.log(img);
+
+    setImage(img.uri);
+    onPick(img.uri);
   };
 
   return (

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   Button,
   ScrollView,
@@ -35,6 +35,7 @@ const StyledImage = styled.Image`
 
 export default function CreateScreen({ navigation }) {
   const [text, setText] = useState('');
+  const imgRef = useRef();
   const dispatch = useDispatch();
 
   const createPostHandler = () => {
@@ -42,9 +43,14 @@ export default function CreateScreen({ navigation }) {
       date: new Date().toJSON(),
       booked: false,
       text,
+      img: imgRef.current,
     };
     dispatch(createPost(post));
     navigation.navigate('Main');
+  };
+
+  const photoPickHandler = uri => {
+    imgRef.current = uri;
   };
 
   return (
@@ -58,11 +64,12 @@ export default function CreateScreen({ navigation }) {
             onChangeText={setText}
             multiline
           />
-          <PhotoPicker />
+          <PhotoPicker onPick={photoPickHandler} />
           <Button
             title="Создать пост"
             color={THEME.MAIN_COLOR}
             onPress={createPostHandler}
+            disabled={!text}
           />
         </WrapperView>
       </ScrollView>
