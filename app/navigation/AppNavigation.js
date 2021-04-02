@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useSelector } from 'react-redux';
 
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { NavigationContainer } from '@react-navigation/native';
@@ -72,9 +73,13 @@ function PostNavigation() {
             const dispatch = useDispatch();
             const { postId } = params;
 
+            const post = useSelector(state =>
+              state.post.allPosts.find(p => p.id === postId)
+            );
+
             const toggleHandler = useCallback(
-              () => dispatch(toggleBooked(postId)),
-              [dispatch, postId]
+              () => dispatch(toggleBooked(post)),
+              [dispatch, post]
             );
 
             let iconName = params.booked ? 'ios-star' : 'ios-star-outline';
