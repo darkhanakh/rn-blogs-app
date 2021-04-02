@@ -9,6 +9,7 @@ import styled from 'styled-components/native';
 import { THEME } from './../theme';
 import { useDispatch } from 'react-redux';
 import { createPost } from '../store/actions/post.action';
+import PhotoPicker from '../components/PhotoPicker';
 
 const WrapperView = styled.View`
   padding: 10px;
@@ -36,15 +37,11 @@ export default function CreateScreen({ navigation }) {
   const [text, setText] = useState('');
   const dispatch = useDispatch();
 
-  const img =
-    'https://cdn.londonandpartners.com/visit/general-london/areas/river/76709-640x360-houses-of-parliament-and-london-eye-on-thames-from-above-640.jpg';
-
   const createPostHandler = () => {
     const post = {
       date: new Date().toJSON(),
       booked: false,
       text,
-      img,
     };
     dispatch(createPost(post));
     navigation.navigate('Main');
@@ -61,11 +58,7 @@ export default function CreateScreen({ navigation }) {
             onChangeText={setText}
             multiline
           />
-          <StyledImage
-            source={{
-              uri: img,
-            }}
-          />
+          <PhotoPicker />
           <Button
             title="Создать пост"
             color={THEME.MAIN_COLOR}
